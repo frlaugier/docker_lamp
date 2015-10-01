@@ -1,0 +1,29 @@
+site:
+  build: apache
+  ports :
+   - "80:80"
+  volumes:
+   - ./public_html:/var/www/html/
+  links:
+   - database
+phpmyadmin:
+   image: corbinu/docker-phpmyadmin
+   ports :
+    - "8080:80"
+   environment:
+    - MYSQL_USERNAME=root
+    - MYSQL_PASSWORD=password
+   links:
+    - database:mysql
+database:
+  image: mysql:5.5
+  ports:
+   - "3306:3306"
+  environment:
+     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_DATABASE=mysite
+     - MYSQL_USER=mysite
+     - MYSQL_PASSWORD=password
+  volumes:
+     - ./mysql:/var/lib/mysql
+
